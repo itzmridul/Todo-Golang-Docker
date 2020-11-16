@@ -1,0 +1,22 @@
+# base image
+FROM golang:alpine
+
+# setting work directory
+WORKDIR /todo
+
+# managing dependencies
+COPY go.mod .
+COPY go.sum .
+RUN go mod download
+RUN go mod verify
+
+# Copy the code into the container
+COPY . .
+
+# Build the application
+RUN go build -o main .
+
+EXPOSE 4700
+
+CMD ["./main"]
+
